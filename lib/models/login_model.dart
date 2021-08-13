@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 class LoginModel {
   LoginModel() {}
 
-  String login(
+  bool login(
       TextEditingController ctrlEmail, TextEditingController ctrlPassword) {
     String email = ctrlEmail.text;
     String senha = ctrlPassword.text;
 
-    var response = "Efetuar login";
+    var response = email + senha;
 
     if (response != null) {
-      return response;
+      print("Login Efetuado");
+      return true;
+    } else {
+      print("Login negado");
+      return false;
     }
-    return "Fodeu";
   }
 }

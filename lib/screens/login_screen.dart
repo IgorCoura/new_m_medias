@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:new_m_medias/models/student_model.dart';
 import 'package:new_m_medias/models/login_model.dart';
+import 'package:new_m_medias/screens/home_screen.dart';
 import 'package:new_m_medias/utilities/colors_utils.dart';
 import 'package:new_m_medias/utilities/constants_utils.dart';
 
@@ -7,15 +9,23 @@ class LoginScreen extends StatelessWidget {
   final _ctrlEmail = TextEditingController();
   final _ctrlPassword = TextEditingController();
   final LoginModel loginModel;
+  final StudentModel studentModel;
 
   LoginScreen({
     Key? key,
     required this.loginModel,
+    required this.studentModel,
   }) : super(key: key);
 
   _clickButton(BuildContext context) {
-    String resp = loginModel.login(_ctrlEmail, _ctrlPassword);
-    print(resp);
+    if (loginModel.login(_ctrlEmail, _ctrlPassword)) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomeScreen(
+                    studentModel: studentModel,
+                  )));
+    }
   }
 
   Widget _buildEmail() {
