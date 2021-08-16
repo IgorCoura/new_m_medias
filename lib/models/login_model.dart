@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LoginModel {
-  LoginModel() {}
+  LoginModel();
 
   bool login(
       TextEditingController ctrlEmail, TextEditingController ctrlPassword) {

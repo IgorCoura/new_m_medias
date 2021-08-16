@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MeanWidget extends StatelessWidget {
+class MeanFinalWidget extends StatelessWidget {
   final String meanTest;
   final String meanWork;
   final String meanFinal;
 
-  const MeanWidget({
+  const MeanFinalWidget({
     Key? key,
     required this.meanTest,
     required this.meanFinal,
@@ -73,14 +73,20 @@ class MeanWidget extends StatelessWidget {
                     )),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                child: Text(meanFinal,
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    )),
-              ),
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    child: TextFormField(
+                      initialValue: meanFinal,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      onChanged: (s) => print(s),
+                    ),
+                  )),
             ],
           ),
         ],

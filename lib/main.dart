@@ -10,8 +10,8 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
-  final loginModel = new LoginModel();
-  final homeModel = new StudentModel();
+  final loginModel = LoginModel();
+  final homeModel = StudentModel();
 
   @override
   Widget build(BuildContext context) {

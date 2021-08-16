@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:new_m_medias/models/courses_model.dart';
 import 'package:new_m_medias/models/student_model.dart';
 import 'package:new_m_medias/utilities/colors_utils.dart';
 import 'package:new_m_medias/widgets/card_widget.dart';
