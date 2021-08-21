@@ -6,7 +6,7 @@ class GradeWidget extends StatelessWidget {
   final Function(int index, double grade) changeGrade;
   final int id;
 
-  GradeWidget({
+  const GradeWidget({
     Key? key,
     required this.id,
     required this.nameGrade,
@@ -17,26 +17,26 @@ class GradeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       child: Row(
         children: [
           Text(
-            this.nameGrade + ":",
-            style: TextStyle(
+            nameGrade + ":",
+            style: const TextStyle(
                 color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
           ),
           Container(
               alignment: Alignment.center,
               width: 75,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border:
                     Border(bottom: BorderSide(color: Colors.white, width: 1)),
               ),
               child: TextFormField(
-                onFieldSubmitted: (s) => this.changeGrade(id, double.parse(s)),
+                onFieldSubmitted: (s) => changeGrade(id, double.parse(s)),
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.number,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
                     fontSize: 32,
                     fontWeight: FontWeight.bold),

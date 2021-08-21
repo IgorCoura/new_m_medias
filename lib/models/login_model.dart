@@ -1,21 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:new_m_medias/api/maua_api.dart';
 
 class LoginModel {
-  LoginModel();
-
-  bool login(
-      TextEditingController ctrlEmail, TextEditingController ctrlPassword) {
+  Future<bool> login(TextEditingController ctrlEmail,
+      TextEditingController ctrlPassword) async {
     String email = ctrlEmail.text;
-    String senha = ctrlPassword.text;
+    String password = ctrlPassword.text;
 
-    var response = email + senha;
-
-    if (response != null) {
-      print("Login Efetuado");
-      return true;
-    } else {
-      print("Login negado");
-      return false;
-    }
+    return await mauaApi.login(email, password);
   }
 }

@@ -15,14 +15,14 @@ class MeanFinalWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
                 child: Text("Média de Prova:",
                     style: TextStyle(
                       fontSize: 24,
@@ -32,7 +32,7 @@ class MeanFinalWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                 child: Text(meanTest,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       color: Colors.white,
                     )),
@@ -42,8 +42,8 @@ class MeanFinalWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text("Média de Trabalho:",
                     style: TextStyle(
                       fontSize: 24,
@@ -53,7 +53,7 @@ class MeanFinalWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(meanWork,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       color: Colors.white,
                     )),
@@ -63,8 +63,8 @@ class MeanFinalWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
                 child: Text("Média de Final:",
                     style: TextStyle(
                       fontSize: 24,
@@ -74,12 +74,12 @@ class MeanFinalWidget extends StatelessWidget {
               ),
               Padding(
                   padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                  child: Container(
+                  child: SizedBox(
                     width: 50,
                     height: 50,
                     child: TextFormField(
                       initialValue: meanFinal,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,

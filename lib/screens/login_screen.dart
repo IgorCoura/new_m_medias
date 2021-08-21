@@ -17,8 +17,8 @@ class LoginScreen extends StatelessWidget {
     required this.studentModel,
   }) : super(key: key);
 
-  _clickButton(BuildContext context) {
-    if (loginModel.login(_ctrlEmail, _ctrlPassword)) {
+  _clickButton(BuildContext context) async {
+    if (await loginModel.login(_ctrlEmail, _ctrlPassword)) {
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -37,11 +37,11 @@ class LoginScreen extends StatelessWidget {
         child: TextField(
           controller: _ctrlEmail,
           keyboardType: TextInputType.emailAddress,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontFamily: 'OpenSans',
           ),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: InputBorder.none,
             contentPadding: EdgeInsets.only(top: 14.0),
             prefixIcon: Icon(
@@ -65,11 +65,11 @@ class LoginScreen extends StatelessWidget {
         child: TextField(
           controller: _ctrlPassword,
           obscureText: true,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontFamily: 'OpenSans',
           ),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: InputBorder.none,
             contentPadding: EdgeInsets.only(top: 14.0),
             prefixIcon: Icon(
@@ -86,19 +86,19 @@ class LoginScreen extends StatelessWidget {
 
   Widget _buildLoginBtn(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0, horizontal: 25),
+      padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25),
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () => _clickButton(context),
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(Colors.white),
-          padding: MaterialStateProperty.all(EdgeInsets.all(15.0)),
+          padding: MaterialStateProperty.all(const EdgeInsets.all(15.0)),
           shape: MaterialStateProperty.all(RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           )),
           elevation: MaterialStateProperty.all(5),
         ),
-        child: Text(
+        child: const Text(
           'LOGIN',
           style: TextStyle(
             color: primaryColor,
@@ -116,18 +116,18 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: Container(
+      body: SizedBox(
         height: double.infinity,
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.symmetric(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(
             horizontal: 40.0,
             vertical: 160.0,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
+              const Text(
                 'Sign In',
                 style: TextStyle(
                   color: Colors.white,
@@ -136,9 +136,9 @@ class LoginScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 35.0),
+              const SizedBox(height: 35.0),
               _buildEmail(),
-              SizedBox(
+              const SizedBox(
                 height: 30.0,
               ),
               _buildPassword(),

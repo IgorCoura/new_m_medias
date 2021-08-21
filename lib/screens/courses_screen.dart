@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:new_m_medias/models/courses_model.dart';
 import 'package:new_m_medias/utilities/colors_utils.dart';
 import 'package:new_m_medias/widgets/grade_widget.dart';
-import 'package:new_m_medias/widgets/mean_final_widget.dart';
 
 class CoursesScreen extends StatefulWidget {
   final CoursesModel coursesModel;
 
-  CoursesScreen({
+  const CoursesScreen({
     Key? key,
     required this.coursesModel,
   }) : super(key: key);
@@ -19,7 +18,7 @@ class CoursesScreen extends StatefulWidget {
 class _CoursesScreenState extends State<CoursesScreen> {
   bool changeWidget = true;
 
-  _clickButton(bool change) {
+  _changeMeanButton(bool change) {
     setState(() {
       if (change) {
         changeWidget = true;
@@ -29,13 +28,23 @@ class _CoursesScreenState extends State<CoursesScreen> {
     });
   }
 
+  _changeGradeTest(int index, double grade) {
+    setState(() {
+      widget.coursesModel.changeTest(index, grade);
+    });
+  }
+
+  _changeGradeWorks(int index, double grade) {
+    setState(() {
+      widget.coursesModel.changeWorks(index, grade);
+    });
+  }
+
   Widget _gradeGrid() {
-    var test = this.widget.coursesModel.getTest();
-    var works = this.widget.coursesModel.getWorks();
+    var test = widget.coursesModel.getTest();
+    var works = widget.coursesModel.getWorks();
     return ListView(
-        children: this
-            .widget
-            .coursesModel
+        children: widget.coursesModel
             .getIndex()
             .map(
               (e) => Row(
@@ -46,7 +55,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
                           id: e,
                           nameGrade: "P" + (e + 1).toString(),
                           grade: test[e].toString(),
-                          changeGrade: this.widget.coursesModel.changeTest)
+                          changeGrade: _changeGradeTest)
                       : Container(
                           width: 160,
                         ),
@@ -55,7 +64,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
                           id: e,
                           nameGrade: "T" + (e + 1).toString(),
                           grade: works[e].toString(),
-                          changeGrade: this.widget.coursesModel.changeWorks)
+                          changeGrade: _changeGradeWorks)
                       : Container(
                           width: 160,
                         ),
@@ -66,16 +75,16 @@ class _CoursesScreenState extends State<CoursesScreen> {
             .toList());
   }
 
-  Widget _meanFinal(String meanTest, String meanWork, String meanFinal) {
+  Widget _meanFinal() {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                 child: Text("Média de Prova:",
                     style: TextStyle(
                       fontSize: 24,
@@ -87,16 +96,24 @@ class _CoursesScreenState extends State<CoursesScreen> {
                   child: Container(
                     width: 50,
                     height: 50,
+                    decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: Colors.white, width: 1)),
+                    ),
                     child: TextFormField(
-                      initialValue: meanFinal,
-                      decoration: InputDecoration(
+                      keyboardType: TextInputType.number,
+                      key: Key(
+                          widget.coursesModel.getMeanTest().toStringAsFixed(1)),
+                      initialValue:
+                          widget.coursesModel.getMeanTest().toStringAsFixed(1),
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -109,8 +126,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                 child: Text("Média de Trabalho:",
                     style: TextStyle(
                       fontSize: 24,
@@ -120,18 +137,27 @@ class _CoursesScreenState extends State<CoursesScreen> {
               Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: Colors.white, width: 1)),
+                    ),
                     width: 50,
                     height: 50,
                     child: TextFormField(
-                      initialValue: meanFinal,
-                      decoration: InputDecoration(
+                      keyboardType: TextInputType.number,
+                      key: Key(widget.coursesModel
+                          .getMeanWorks()
+                          .toStringAsFixed(1)),
+                      initialValue:
+                          widget.coursesModel.getMeanWorks().toStringAsFixed(1),
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -144,8 +170,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                 child: Text("Média de Final:",
                     style: TextStyle(
                       fontSize: 24,
@@ -156,18 +182,27 @@ class _CoursesScreenState extends State<CoursesScreen> {
               Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: Colors.white, width: 1)),
+                    ),
                     width: 50,
                     height: 50,
                     child: TextFormField(
-                      decoration: InputDecoration(
+                      key: Key(widget.coursesModel
+                          .getMeanFinal()
+                          .toStringAsFixed(1)),
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
                       ),
-                      initialValue: meanFinal,
-                      style: TextStyle(
+                      initialValue:
+                          widget.coursesModel.getMeanFinal().toStringAsFixed(1),
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -182,7 +217,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
               backgroundColor: MaterialStateProperty.all(secondaryColorDark),
             ),
             onPressed: () => print("object"),
-            child: Text(
+            child: const Text(
               "Mínimo Esforço",
               style: TextStyle(
                 fontSize: 24,
@@ -196,14 +231,14 @@ class _CoursesScreenState extends State<CoursesScreen> {
 
   Widget _meanPartial(String meanTest, String meanWork, String meanFinal) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
                 child: Text("Média de Prova:",
                     style: TextStyle(
                       fontSize: 24,
@@ -213,7 +248,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                 child: Text(meanTest,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       color: Colors.white,
                     )),
@@ -223,8 +258,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text("Média de Trabalho:",
                     style: TextStyle(
                       fontSize: 24,
@@ -234,7 +269,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(meanWork,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       color: Colors.white,
                     )),
@@ -244,8 +279,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
                 child: Text("Média de Final:",
                     style: TextStyle(
                       fontSize: 24,
@@ -255,11 +290,12 @@ class _CoursesScreenState extends State<CoursesScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(meanFinal,
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                    )),
+                child:
+                    Text(widget.coursesModel.getMeanFinal().toStringAsFixed(1),
+                        style: const TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                        )),
               ),
             ],
           ),
@@ -271,15 +307,11 @@ class _CoursesScreenState extends State<CoursesScreen> {
   Widget _mean() {
     return changeWidget
         ? _meanPartial(
-            this.widget.coursesModel.getMeanTestPartial().toStringAsFixed(1),
-            this.widget.coursesModel.getMeanWorksPartial().toStringAsFixed(1),
-            this.widget.coursesModel.getMeanFinalPartial().toStringAsFixed(1),
+            widget.coursesModel.getMeanTestPartial().toStringAsFixed(1),
+            widget.coursesModel.getMeanWorksPartial().toStringAsFixed(1),
+            widget.coursesModel.getMeanFinalPartial().toStringAsFixed(1),
           )
-        : _meanFinal(
-            this.widget.coursesModel.getMeanTestPartial().toStringAsFixed(1),
-            this.widget.coursesModel.getMeanWorksPartial().toStringAsFixed(1),
-            this.widget.coursesModel.getMeanFinalPartial().toStringAsFixed(1),
-          );
+        : _meanFinal();
   }
 
   @override
@@ -295,7 +327,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
           Expanded(child: _gradeGrid()),
           SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 8, 8.0, 0),
+              padding: const EdgeInsets.fromLTRB(8, 0, 8.0, 0),
               child: Container(
                 color: primaryColorDark,
                 child: Column(
@@ -304,10 +336,10 @@ class _CoursesScreenState extends State<CoursesScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             alignment: Alignment.center,
                             child: TextButton(
-                              onPressed: () => _clickButton(true),
+                              onPressed: () => _changeMeanButton(true),
                               child: const Text(
                                 "Média Parcial",
                                 style: TextStyle(
@@ -318,10 +350,10 @@ class _CoursesScreenState extends State<CoursesScreen> {
                               ),
                             )),
                         Container(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             alignment: Alignment.center,
                             child: TextButton(
-                              onPressed: () => _clickButton(false),
+                              onPressed: () => _changeMeanButton(false),
                               child: const Text(
                                 "Média Final",
                                 style: TextStyle(

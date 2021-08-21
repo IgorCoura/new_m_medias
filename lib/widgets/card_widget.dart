@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:new_m_medias/models/courses_model.dart';
 import 'package:new_m_medias/screens/courses_screen.dart';
 import 'package:new_m_medias/utilities/colors_utils.dart';
-import 'package:new_m_medias/utilities/constants_utils.dart';
 
 class CardWidget extends StatelessWidget {
   final CoursesModel coursesModel;
+  final Function(CoursesModel c) refresh;
   const CardWidget({
     Key? key,
     required this.coursesModel,
+    required this.refresh,
   }) : super(key: key);
 
   _clickButton(BuildContext context) {
@@ -17,7 +18,7 @@ class CardWidget extends StatelessWidget {
         MaterialPageRoute(
             builder: (context) => CoursesScreen(
                   coursesModel: coursesModel,
-                )));
+                ))).then((value) => refresh(coursesModel));
   }
 
   @override
@@ -29,29 +30,30 @@ class CardWidget extends StatelessWidget {
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(primaryColor),
                 alignment: Alignment.center,
-                fixedSize: MaterialStateProperty.all(Size(double.infinity, 60)),
+                fixedSize:
+                    MaterialStateProperty.all(const Size(double.infinity, 60)),
                 padding: MaterialStateProperty.all(
-                    EdgeInsets.fromLTRB(16, 0, 8, 0))),
+                    const EdgeInsets.fromLTRB(16, 0, 8, 0))),
             child: Row(
               children: [
                 Expanded(
                   child: Text(
                     coursesModel.getTitle(),
-                    style: TextStyle(color: Colors.white, fontSize: 30),
+                    style: const TextStyle(color: Colors.white, fontSize: 30),
                   ),
                 ),
                 Container(
                   alignment: Alignment.centerRight,
-                  padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: Text(
                     coursesModel.getMeanFinal().toStringAsFixed(1),
-                    style: TextStyle(color: Colors.white, fontSize: 30),
+                    style: const TextStyle(color: Colors.white, fontSize: 30),
                     textAlign: TextAlign.left,
                   ),
                 ),
               ],
             )),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
       ],

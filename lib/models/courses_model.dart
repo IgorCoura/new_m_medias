@@ -1,9 +1,16 @@
-import 'dart:ffi';
-
 class CoursesModel {
   String _title = "";
-  List<double> _test = List.empty();
-  List<double> _works = List.empty();
+  double _meanTest = 0;
+  double _meanWorks = 0;
+  double _meanFinal = 0;
+  double _meanTestPartial = 0;
+  double _meanWorksPartial = 0;
+  double _meanFinalPartial = 0;
+  List<double> _test = [];
+  List<double> _weightTest = [];
+  List<double> _works = [];
+  List<double> _weightWorks = [];
+  List<double> _weightFinal = [];
 
   CoursesModel(String title, List<double> test, List<double> works) {
     _title = title;
@@ -14,6 +21,20 @@ class CoursesModel {
   String getTitle() => _title;
   List<double> getTest() => _test;
   List<double> getWorks() => _works;
+  double getMeanTest() {
+    updateMeanTestFinal();
+    return _meanTest;
+  }
+
+  double getMeanWorks() {
+    updateMeanWorksFinal();
+    return _meanWorks;
+  }
+
+  double getMeanFinal() {
+    updateMeanFinal();
+    return _meanFinal;
+  }
 
   List<int> getIndex() {
     return _test.length >= _works.length
@@ -29,11 +50,13 @@ class CoursesModel {
     _works[index] = grade;
   }
 
-  double getMeanFinal() {
-    return getMeanWorksFinal() * 0.6 + getMeanTestFinal() * 0.4;
+  void updateMeanFinal() {
+    updateMeanTestFinal();
+    updateMeanWorksFinal();
+    _meanFinal = _meanTest * 0.6 + _meanWorks * 0.4;
   }
 
-  double getMeanWorksFinal() {
+  void updateMeanTestFinal() {
     double testDivision = 0;
     double testSum = 0;
 
@@ -42,10 +65,10 @@ class CoursesModel {
       testDivision += 1;
     }
 
-    return (testSum / testDivision);
+    _meanTest = (testSum / testDivision);
   }
 
-  double getMeanTestFinal() {
+  void updateMeanWorksFinal() {
     double worksDivision = 0;
     double worksSum = 0;
     for (var w in _works) {
@@ -53,18 +76,18 @@ class CoursesModel {
       worksDivision += 1;
     }
 
-    return worksSum / worksDivision;
+    _meanWorks = worksSum / worksDivision;
   }
 
   double getMeanTestPartial() {
-    return -1;
+    return _meanTestPartial;
   }
 
   double getMeanWorksPartial() {
-    return -1;
+    return _meanWorksPartial;
   }
 
   double getMeanFinalPartial() {
-    return -1;
+    return _meanFinalPartial;
   }
 }
