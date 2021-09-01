@@ -13,7 +13,8 @@ class StudentModel {
   List<CoursesModel> _listCoursesModel = [];
   Map<String, String> headers = {
     "Access-Control-Allow-Origin":
-        "https://www2.maua.br/mauanet.2.0/boletim-escolar"
+        "https://www2.maua.br/mauanet.2.0/boletim-escolar",
+    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD",
   };
 
   Future<void> updateData({Response? response}) async {

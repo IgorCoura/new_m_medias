@@ -11,7 +11,9 @@ class MauaApi {
 
   static Future<Response> login(String email, String password) async {
     Map<String, String> header = {
-      "Access-Control-Allow-Origin": "https://www2.maua.br/mauanet.2.0"
+      "Access-Control-Allow-Origin":
+          "https://www2.maua.br/mauanet.2.0/boletim-escolar",
+      "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD",
     };
 
     var url = Uri.https(host, '/mauanet.2.0');
@@ -21,7 +23,7 @@ class MauaApi {
       "maua_senha": password,
       "maua_submit": "Enviar"
     };
-    var response = await http.post(url, body: _body);
+    var response = await http.post(url, body: _body, headers: header);
     return response;
   }
 
