@@ -11,7 +11,7 @@ class MauaApi {
 
   static Future<Response> login(String email, String password) async {
     Map<String, String> header = {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": "https://new-m-medias.herokuapp.com/",
     };
 
     var url = Uri.https(host, '/mauanet.2.0');
