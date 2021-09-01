@@ -8,8 +8,6 @@ class LoginModel {
       TextEditingController ctrlPassword) async {
     String email = ctrlEmail.text;
     String password = ctrlPassword.text;
-    email = email;
-    password = senha;
 
     var response = await MauaApi.login(email, password);
 
