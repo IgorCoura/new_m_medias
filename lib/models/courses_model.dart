@@ -12,10 +12,8 @@ class CoursesModel {
   List<double> _weightWorks = [];
   List<double> _weightFinal = [];
 
-  CoursesModel(String title, List<double> test, List<double> works) {
+  CoursesModel(String title) {
     _title = title;
-    _test = test;
-    _works = works;
   }
 
   String getTitle() => _title;
@@ -42,6 +40,14 @@ class CoursesModel {
         : List.generate(_works.length, (int i) => i);
   }
 
+  void addTest(double grade) {
+    _test.add(grade);
+  }
+
+  void addWork(double grade) {
+    _works.add(grade);
+  }
+
   void changeTest(int index, double grade) {
     _test[index] = grade;
   }
@@ -65,7 +71,7 @@ class CoursesModel {
       testDivision += 1;
     }
 
-    _meanTest = (testSum / testDivision);
+    _meanTest = 0;
   }
 
   void updateMeanWorksFinal() {
@@ -76,7 +82,7 @@ class CoursesModel {
       worksDivision += 1;
     }
 
-    _meanWorks = worksSum / worksDivision;
+    _meanWorks = 0;
   }
 
   double getMeanTestPartial() {

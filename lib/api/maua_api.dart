@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:http/http.dart' as http;
+import 'package:html/parser.dart' show parse;
+import 'package:http/http.dart';
+import 'package:new_m_medias/models/login_model.dart';
+import 'package:new_m_medias/models/student_model.dart';
 
-class mauaApi {
-  static final String host = 'www2.maua.br';
+class MauaApi {
+  static const String host = 'www2.maua.br';
 
-  static Map<String, String> headers = {};
-
-  static Future<bool> login(String email, String password) async {
+  static Future<Response> login(String email, String password) async {
     var url = Uri.https(host, '/mauanet.2.0');
 
     Map<String, String> _body = {
@@ -15,32 +17,13 @@ class mauaApi {
       "maua_senha": password,
       "maua_submit": "Enviar"
     };
-
     var response = await http.post(url, body: _body);
-    updateCookie(response);
-
-    getNotas();
-
-    if (response.statusCode == 302) {
-      return true;
-    } else {
-      return false;
-    }
+    return response;
   }
 
-  static void getNotas() async {
+  static Future<Response> getGrade(Map<String, String> headers) async {
     var url = Uri.https(host, "/mauanet.2.0/boletim-escolar");
-
     var response = await http.get(url, headers: headers);
-    updateCookie(response);
-  }
-
-  static void updateCookie(http.Response response) {
-    String? rawCookie = response.headers["set-cookie"];
-    if (rawCookie != null) {
-      int index = rawCookie.indexOf(';');
-      headers['cookie'] =
-          (index == -1) ? rawCookie : rawCookie.substring(0, index);
-    }
+    return response;
   }
 }

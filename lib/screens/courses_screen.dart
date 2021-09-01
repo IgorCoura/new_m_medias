@@ -40,6 +40,20 @@ class _CoursesScreenState extends State<CoursesScreen> {
     });
   }
 
+  String _getNameTest(int e) {
+    if (e < 2) {
+      return "P" + (e + 1).toString();
+    } else if (e == 2) {
+      return "PS1";
+    } else if (e > 2 && e < 5) {
+      return "P" + e.toString();
+    } else if (e == 5) {
+      return "PS2";
+    } else {
+      return "+P" + (e - 1).toString();
+    }
+  }
+
   Widget _gradeGrid() {
     var test = widget.coursesModel.getTest();
     var works = widget.coursesModel.getWorks();
@@ -50,16 +64,16 @@ class _CoursesScreenState extends State<CoursesScreen> {
               (e) => Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  e < test.length
+                  e < test.length - 1
                       ? GradeWidget(
                           id: e,
-                          nameGrade: "P" + (e + 1).toString(),
+                          nameGrade: _getNameTest(e),
                           grade: test[e].toString(),
                           changeGrade: _changeGradeTest)
                       : Container(
                           width: 160,
                         ),
-                  e < works.length
+                  e < works.length - 1
                       ? GradeWidget(
                           id: e,
                           nameGrade: "T" + (e + 1).toString(),
@@ -324,50 +338,51 @@ class _CoursesScreenState extends State<CoursesScreen> {
       ),
       body: Column(
         children: [
-          Expanded(child: _gradeGrid()),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8.0, 0),
+          Expanded(
               child: Container(
-                color: primaryColorDark,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            padding: const EdgeInsets.all(8),
-                            alignment: Alignment.center,
-                            child: TextButton(
-                              onPressed: () => _changeMeanButton(true),
-                              child: const Text(
-                                "Média Parcial",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
+            child: _gradeGrid(),
+          )),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8.0, 0),
+            child: Container(
+              color: primaryColorDark,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          padding: const EdgeInsets.all(8),
+                          alignment: Alignment.center,
+                          child: TextButton(
+                            onPressed: () => _changeMeanButton(true),
+                            child: const Text(
+                              "Média Parcial",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
                               ),
-                            )),
-                        Container(
-                            padding: const EdgeInsets.all(8),
-                            alignment: Alignment.center,
-                            child: TextButton(
-                              onPressed: () => _changeMeanButton(false),
-                              child: const Text(
-                                "Média Final",
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
+                            ),
+                          )),
+                      Container(
+                          padding: const EdgeInsets.all(8),
+                          alignment: Alignment.center,
+                          child: TextButton(
+                            onPressed: () => _changeMeanButton(false),
+                            child: const Text(
+                              "Média Final",
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
-                            )),
-                      ],
-                    ),
-                    _mean(),
-                  ],
-                ),
+                            ),
+                          )),
+                    ],
+                  ),
+                  _mean(),
+                ],
               ),
             ),
           ),

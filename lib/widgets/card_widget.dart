@@ -25,36 +25,35 @@ class CardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ElevatedButton(
-            onPressed: () => _clickButton(context),
-            style: ButtonStyle(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+              onPressed: () => _clickButton(context),
+              style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(primaryColor),
                 alignment: Alignment.center,
                 fixedSize:
                     MaterialStateProperty.all(const Size(double.infinity, 60)),
-                padding: MaterialStateProperty.all(
-                    const EdgeInsets.fromLTRB(16, 0, 8, 0))),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    coursesModel.getTitle(),
-                    style: const TextStyle(color: Colors.white, fontSize: 30),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      coursesModel.getTitle(),
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                    ),
                   ),
-                ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                  child: Text(
-                    coursesModel.getMeanFinal().toStringAsFixed(1),
-                    style: const TextStyle(color: Colors.white, fontSize: 30),
-                    textAlign: TextAlign.left,
+                  Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                    child: Text(
+                      coursesModel.getMeanFinal().toStringAsFixed(1),
+                      style: const TextStyle(color: Colors.white, fontSize: 30),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
-                ),
-              ],
-            )),
-        const SizedBox(
-          height: 20,
+                ],
+              )),
         ),
       ],
     );

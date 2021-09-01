@@ -11,7 +11,6 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
   final loginModel = LoginModel();
-  final homeModel = StudentModel();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: LoginScreen(
         loginModel: loginModel,
-        studentModel: homeModel,
       ),
     );
   }

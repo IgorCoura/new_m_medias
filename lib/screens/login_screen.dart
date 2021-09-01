@@ -5,25 +5,39 @@ import 'package:new_m_medias/screens/home_screen.dart';
 import 'package:new_m_medias/utilities/colors_utils.dart';
 import 'package:new_m_medias/utilities/constants_utils.dart';
 
-class LoginScreen extends StatelessWidget {
-  final _ctrlEmail = TextEditingController();
-  final _ctrlPassword = TextEditingController();
+class LoginScreen extends StatefulWidget {
   final LoginModel loginModel;
-  final StudentModel studentModel;
 
-  LoginScreen({
+  const LoginScreen({
     Key? key,
     required this.loginModel,
-    required this.studentModel,
   }) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _ctrlEmail = TextEditingController();
+
+  final _ctrlPassword = TextEditingController();
+
+  bool _clicked = false;
+
+  double _opacity = 1.0;
+
   _clickButton(BuildContext context) async {
-    if (await loginModel.login(_ctrlEmail, _ctrlPassword)) {
+    var user = await widget.loginModel.login(_ctrlEmail, _ctrlPassword);
+    setState(() {
+      _clicked = false;
+      _opacity = 1.0;
+    });
+    if (user != null) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => HomeScreen(
-                    studentModel: studentModel,
+                    studentModel: user,
                   )));
     }
   }
@@ -85,29 +99,72 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildLoginBtn(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25),
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () => _clickButton(context),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.white),
-          padding: MaterialStateProperty.all(const EdgeInsets.all(15.0)),
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          )),
-          elevation: MaterialStateProperty.all(5),
-        ),
-        child: const Text(
-          'LOGIN',
-          style: TextStyle(
-            color: primaryColor,
-            letterSpacing: 1.5,
-            fontSize: 12.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: Stack(
+        children: <Widget>[
+          InkWell(
+            onTap: () {
+              setState(() {
+                _clicked = !_clicked;
+                _opacity = _opacity == 1.0 ? 0.0 : 1.0;
+              });
+            },
+            child: AnimatedContainer(
+              width: _clicked ? 55 : 200,
+              height: 55,
+              curve: Curves.fastOutSlowIn,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(_clicked ? 70.0 : 30.0),
+                color: secondaryColorDark,
+              ),
+              duration: const Duration(milliseconds: 700),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  AnimatedOpacity(
+                    duration: Duration(seconds: 1),
+                    child: const Text(
+                      "Sign In",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    opacity: _opacity,
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
+          InkWell(
+            onTap: () {
+              setState(() {
+                _clickButton(context);
+                _clicked = !_clicked;
+                _opacity = _opacity == 1.0 ? 0.0 : 1.0;
+              });
+            },
+            child: AnimatedContainer(
+              width: _clicked ? 55 : 200,
+              height: 55,
+              curve: Curves.fastOutSlowIn,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(_clicked ? 70.0 : 30.0),
+              ),
+              duration: Duration(milliseconds: 700),
+              child: AnimatedOpacity(
+                duration: Duration(milliseconds: 700),
+                child: Padding(
+                  child: CircularProgressIndicator(
+                      backgroundColor: Colors.blueAccent,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          _clicked ? primaryColorDark : secondaryColorDark)),
+                  padding: const EdgeInsets.all(1),
+                ),
+                opacity: _opacity == 0.0 ? 1.0 : 0.0,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: primaryColorDark,
-        title: const Text("Aluno J"),
+        title: Text(widget.studentModel.getName()),
       ),
       body: ListView(
           padding: const EdgeInsets.all(8),
