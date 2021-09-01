@@ -10,6 +10,10 @@ class MauaApi {
   static const String host = 'www2.maua.br';
 
   static Future<Response> login(String email, String password) async {
+    Map<String, String> header = {
+      "Access-Control-Allow-Origin": "https://www2.maua.br/mauanet.2.0"
+    };
+
     var url = Uri.https(host, '/mauanet.2.0');
 
     Map<String, String> _body = {

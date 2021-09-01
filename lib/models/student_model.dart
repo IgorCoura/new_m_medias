@@ -11,7 +11,10 @@ class StudentModel {
   String _name = "";
   String _ra = "";
   List<CoursesModel> _listCoursesModel = [];
-  Map<String, String> headers = {};
+  Map<String, String> headers = {
+    "Access-Control-Allow-Origin":
+        "https://www2.maua.br/mauanet.2.0/boletim-escolar"
+  };
 
   Future<void> updateData({Response? response}) async {
     response != null ? updateCookie(response) : null;
