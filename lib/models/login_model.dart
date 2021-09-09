@@ -10,9 +10,6 @@ class LoginModel {
     String email = ctrlEmail.text;
     String password = ctrlPassword.text;
 
-    email = t_email;
-    password = t_senha;
-
     return await MauaApi.login(email, password);
   }
 }
