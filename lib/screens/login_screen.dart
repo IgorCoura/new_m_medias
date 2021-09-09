@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:new_m_medias/models/student_model.dart';
 import 'package:new_m_medias/models/login_model.dart';
 import 'package:new_m_medias/screens/home_screen.dart';
@@ -27,18 +28,35 @@ class _LoginScreenState extends State<LoginScreen> {
   double _opacity = 1.0;
 
   _clickButton(BuildContext context) async {
-    var user = await widget.loginModel.login(_ctrlEmail, _ctrlPassword);
+    Response response =
+        await widget.loginModel.login(_ctrlEmail, _ctrlPassword);
     setState(() {
       _clicked = false;
       _opacity = 1.0;
     });
-    if (user != null) {
+    if (response.statusCode == 200) {
+      var user = StudentModel();
+      user.updateData(response);
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => HomeScreen(
                     studentModel: user,
                   )));
+    } else {
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text('Erro: ' + response.statusCode.toString()),
+          content: Text(response.body),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
     }
   }
 

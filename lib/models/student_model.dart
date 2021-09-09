@@ -11,34 +11,13 @@ class StudentModel {
   String _name = "";
   String _ra = "";
   List<CoursesModel> _listCoursesModel = [];
-  Map<String, String> headers = {
-    "Access-Control-Allow-Origin":
-        "https://www2.maua.br/mauanet.2.0/boletim-escolar",
-    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD",
-  };
 
-  Future<void> updateData({Response? response}) async {
-    response != null ? updateCookie(response) : null;
-    Response resp = await MauaApi.getGrade(headers);
-    updateCookie(resp);
-    String body = utf8.decode(resp.bodyBytes);
+  Future<void> updateData(Response response) async {
+    String body = utf8.decode(response.bodyBytes);
     Document doc = parse(body);
     _name = htmlService.getUserName(doc);
     _ra = htmlService.getUserRegister(doc);
     _listCoursesModel = htmlService.getGradeData(doc);
-  }
-
-  Future<void> updateCookie(Response response) async {
-    String? rawCookie = response.headers["set-cookie"];
-    if (rawCookie != null) {
-      int index = rawCookie.indexOf(';');
-      headers['cookie'] =
-          (index == -1) ? rawCookie : rawCookie.substring(0, index);
-    }
-  }
-
-  Map<String, String> getCookie() {
-    return headers;
   }
 
   List<CoursesModel> getListCoursesModel() => _listCoursesModel;

@@ -23,7 +23,7 @@ class GradeWidget extends StatelessWidget {
           Text(
             nameGrade + ":",
             style: const TextStyle(
-                color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+                color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
           ),
           Container(
               alignment: Alignment.center,
@@ -38,7 +38,7 @@ class GradeWidget extends StatelessWidget {
                 keyboardType: TextInputType.number,
                 style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 32,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold),
                 initialValue: grade,
               )),
