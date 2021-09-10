@@ -5,6 +5,7 @@ class GradeWidget extends StatelessWidget {
   final String grade;
   final Function(int index, double grade) changeGrade;
   final int id;
+  final bool edit;
 
   const GradeWidget({
     Key? key,
@@ -12,10 +13,10 @@ class GradeWidget extends StatelessWidget {
     required this.nameGrade,
     required this.grade,
     required this.changeGrade,
+    required this.edit,
   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
+  _modNormal() {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       child: Row(
@@ -45,5 +46,38 @@ class GradeWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _modEdit() {
+    return Container(
+      width: 110,
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Text(
+            nameGrade + ":",
+            style: const TextStyle(
+                color: Color(0xffaeaeae),
+                fontSize: 16,
+                fontWeight: FontWeight.bold),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              grade,
+              style: const TextStyle(
+                  color: Color(0xffaeaeae),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return edit ? _modEdit() : _modNormal();
   }
 }

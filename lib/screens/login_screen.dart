@@ -30,10 +30,12 @@ class _LoginScreenState extends State<LoginScreen> {
   _clickButton(BuildContext context) async {
     Response response =
         await widget.loginModel.login(_ctrlEmail, _ctrlPassword);
+
     setState(() {
       _clicked = false;
       _opacity = 1.0;
     });
+
     if (response.statusCode == 200) {
       var user = StudentModel();
       user.updateData(response);
@@ -124,8 +126,8 @@ class _LoginScreenState extends State<LoginScreen> {
           InkWell(
             onTap: () {
               setState(() {
-                _clicked = !_clicked;
-                _opacity = _opacity == 1.0 ? 0.0 : 1.0;
+                _clicked = true;
+                _opacity = 0.0;
               });
             },
             child: AnimatedContainer(
@@ -142,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   AnimatedOpacity(
-                    duration: Duration(seconds: 1),
+                    duration: const Duration(milliseconds: 300),
                     child: const Text(
                       "Sign In",
                       style: TextStyle(color: Colors.white, fontSize: 18),
@@ -157,8 +159,8 @@ class _LoginScreenState extends State<LoginScreen> {
             onTap: () {
               setState(() {
                 _clickButton(context);
-                _clicked = !_clicked;
-                _opacity = _opacity == 1.0 ? 0.0 : 1.0;
+                _clicked = true;
+                _opacity = 0.0;
               });
             },
             child: AnimatedContainer(
@@ -168,9 +170,9 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(_clicked ? 70.0 : 30.0),
               ),
-              duration: Duration(milliseconds: 700),
+              duration: const Duration(milliseconds: 700),
               child: AnimatedOpacity(
-                duration: Duration(milliseconds: 700),
+                duration: const Duration(milliseconds: 700),
                 child: Padding(
                   child: CircularProgressIndicator(
                       backgroundColor: Colors.blueAccent,
@@ -199,26 +201,28 @@ class _LoginScreenState extends State<LoginScreen> {
             horizontal: 40.0,
             vertical: 160.0,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'Sign In',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'OpenSans',
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'Sign In',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'OpenSans',
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 35.0),
-              _buildEmail(),
-              const SizedBox(
-                height: 30.0,
-              ),
-              _buildPassword(),
-              _buildLoginBtn(context),
-            ],
+                const SizedBox(height: 35.0),
+                _buildEmail(),
+                const SizedBox(
+                  height: 30.0,
+                ),
+                _buildPassword(),
+                _buildLoginBtn(context),
+              ],
+            ),
           ),
         ),
       ),

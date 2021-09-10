@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_m_medias/models/courses_model.dart';
 import 'package:new_m_medias/utilities/colors_utils.dart';
 import 'package:new_m_medias/widgets/grade_widget.dart';
+import 'package:new_m_medias/widgets/weight_widget.dart';
 
 class CoursesScreen extends StatefulWidget {
   final CoursesModel coursesModel;
@@ -16,15 +18,22 @@ class CoursesScreen extends StatefulWidget {
 }
 
 class _CoursesScreenState extends State<CoursesScreen> {
-  bool changeWidget = true;
+  bool changeMeanWidget = true;
+  bool editWeight = true;
 
   _changeMeanButton(bool change) {
     setState(() {
       if (change) {
-        changeWidget = true;
+        changeMeanWidget = true;
       } else {
-        changeWidget = false;
+        changeMeanWidget = false;
       }
+    });
+  }
+
+  _clickEditWeightButton() {
+    setState(() {
+      editWeight = !editWeight;
     });
   }
 
@@ -69,20 +78,39 @@ class _CoursesScreenState extends State<CoursesScreen> {
                           id: e,
                           nameGrade: _getNameTest(e),
                           grade: test[e].toString(),
-                          changeGrade: _changeGradeTest)
+                          changeGrade: _changeGradeTest,
+                          edit: editWeight,
+                        )
                       : Container(
                           width: 160,
+                        ),
+                  e < test.length - 1
+                      ? WeightWidget(
+                          edit: editWeight,
+                          weight: 1.7,
+                        )
+                      : Container(
+                          width: 50,
                         ),
                   e < works.length - 1
                       ? GradeWidget(
                           id: e,
                           nameGrade: "T" + (e + 1).toString(),
                           grade: works[e].toString(),
-                          changeGrade: _changeGradeWorks)
+                          changeGrade: _changeGradeWorks,
+                          edit: editWeight,
+                        )
                       : Container(
                           width: 160,
                         ),
-                  //works[e].isNaN?Container():GradeWidget(id: e, nameGrade: "T"+(e+1).toString(), grade: works[e].toString(), changeGrade: coursesModel.changeWorks),
+                  e < works.length - 1
+                      ? WeightWidget(
+                          edit: editWeight,
+                          weight: 1.6,
+                        )
+                      : Container(
+                          width: 50,
+                        ),
                 ],
               ),
             )
@@ -91,6 +119,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
 
   Widget _meanFinal() {
     return Container(
+      width: 360,
       padding: const EdgeInsets.all(8),
       child: Column(
         children: [
@@ -245,6 +274,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
 
   Widget _meanPartial(String meanTest, String meanWork, String meanFinal) {
     return Container(
+      width: 360,
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
@@ -319,7 +349,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
   }
 
   Widget _mean() {
-    return changeWidget
+    return changeMeanWidget
         ? _meanPartial(
             widget.coursesModel.getMeanTestPartial().toStringAsFixed(1),
             widget.coursesModel.getMeanWorksPartial().toStringAsFixed(1),
@@ -335,6 +365,10 @@ class _CoursesScreenState extends State<CoursesScreen> {
       appBar: AppBar(
         title: Text(widget.coursesModel.getTitle()),
         backgroundColor: primaryColorDark,
+        actions: [
+          IconButton(
+              onPressed: () => _clickEditWeightButton(), icon: Icon(Icons.edit))
+        ],
       ),
       body: Column(
         children: [

@@ -12,7 +12,9 @@ class htmlService {
       var title = element.getElementsByClassName("text-left").first.text;
       title = getText(title);
       var course = CoursesModel(title);
+
       var tests = element.getElementsByClassName("provas");
+      List<double> listTest = [];
       tests.forEach((t) {
         var text = t.text;
         if (text != null && !t.outerHtml.contains("bloqueado")) {
@@ -22,11 +24,14 @@ class htmlService {
           text = text.replaceAll(",", ".");
           var grade = double.tryParse(text);
           if (grade != null) {
-            course.addTest(grade);
+            listTest.add(grade);
           }
         }
       });
+      course.insertLitTest(listTest);
+
       var works = element.getElementsByClassName("trabalhos ");
+      List<double> listWorks = [];
       works.forEach((w) {
         var text = w.text;
         if (text != null && !w.outerHtml.contains("bloqueado")) {
@@ -36,10 +41,11 @@ class htmlService {
           text = text.replaceAll(",", ".");
           var grade = double.tryParse(text);
           if (grade != null) {
-            course.addWork(grade);
+            listWorks.add(grade);
           }
         }
       });
+      course.insertLitWork(listWorks);
       list.add(course);
     });
     return list;

@@ -48,6 +48,14 @@ class CoursesModel {
     _works.add(grade);
   }
 
+  void insertLitTest(List<double> grade) {
+    _test = grade;
+  }
+
+  void insertLitWork(List<double> grade) {
+    _works = grade;
+  }
+
   void changeTest(int index, double grade) {
     _test[index] = grade;
   }
