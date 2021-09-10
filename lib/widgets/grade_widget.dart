@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class GradeWidget extends StatelessWidget {
   final String nameGrade;
-  final String grade;
+  final double grade;
   final Function(int index, double grade) changeGrade;
   final int id;
   final bool edit;
@@ -16,15 +16,33 @@ class GradeWidget extends StatelessWidget {
     required this.edit,
   }) : super(key: key);
 
+  String _gradeToString() {
+    if (grade >= 0) {
+      return grade.toStringAsFixed(1);
+    } else if (grade == -1) {
+      return "0";
+    } else if (grade == -2) {
+      return "NC";
+    } else {
+      return "Erro";
+    }
+  }
+
   _modNormal() {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       child: Row(
         children: [
-          Text(
-            nameGrade + ":",
-            style: const TextStyle(
-                color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+          Container(
+            alignment: Alignment.topRight,
+            width: 65,
+            child: Text(
+              nameGrade + ":",
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
           Container(
               alignment: Alignment.center,
@@ -41,7 +59,7 @@ class GradeWidget extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 30,
                     fontWeight: FontWeight.bold),
-                initialValue: grade,
+                initialValue: _gradeToString(),
               )),
         ],
       ),
@@ -64,7 +82,7 @@ class GradeWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              grade,
+              _gradeToString(),
               style: const TextStyle(
                   color: Color(0xffaeaeae),
                   fontSize: 16,

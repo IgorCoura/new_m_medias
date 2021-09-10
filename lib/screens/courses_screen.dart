@@ -19,7 +19,7 @@ class CoursesScreen extends StatefulWidget {
 
 class _CoursesScreenState extends State<CoursesScreen> {
   bool changeMeanWidget = true;
-  bool editWeight = true;
+  bool editWeight = false;
 
   _changeMeanButton(bool change) {
     setState(() {
@@ -49,7 +49,26 @@ class _CoursesScreenState extends State<CoursesScreen> {
     });
   }
 
-  String _getNameTest(int e) {
+  _changeWeightTest(int index, double grade) {
+    setState(() {
+      widget.coursesModel.changeWeightTest(index, grade);
+    });
+  }
+
+  _changeWeightWorks(int index, double grade) {
+    setState(() {
+      widget.coursesModel.changeWeightWorks(index, grade);
+    });
+  }
+
+  String _getNameTest(int e, int length) {
+    if (length == 2) {
+      if (e < 1) {
+        return "P" + (e + 1).toString();
+      } else if (e == 1) {
+        return "PS1";
+      }
+    }
     if (e < 2) {
       return "P" + (e + 1).toString();
     } else if (e == 2) {
@@ -66,6 +85,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
   Widget _gradeGrid() {
     var test = widget.coursesModel.getTest();
     var works = widget.coursesModel.getWorks();
+    var weightTest = widget.coursesModel.getWeigthTest();
+    var weightWorks = widget.coursesModel.getWeightWorks();
     return ListView(
         children: widget.coursesModel
             .getIndex()
@@ -76,40 +97,47 @@ class _CoursesScreenState extends State<CoursesScreen> {
                   e < test.length - 1
                       ? GradeWidget(
                           id: e,
-                          nameGrade: _getNameTest(e),
-                          grade: test[e].toString(),
+                          nameGrade: _getNameTest(e, test.length - 1),
+                          grade: test[e],
                           changeGrade: _changeGradeTest,
                           edit: editWeight,
                         )
                       : Container(
-                          width: 160,
+                          width: editWeight ? 110 : 172,
                         ),
                   e < test.length - 1
                       ? WeightWidget(
+                          id: e,
+                          changeWeight: _changeWeightTest,
                           edit: editWeight,
-                          weight: 1.7,
+                          weight: weightTest[e],
                         )
                       : Container(
-                          width: 50,
+                          height: 30,
+                          width: editWeight ? 90 : 60,
                         ),
                   e < works.length - 1
                       ? GradeWidget(
                           id: e,
                           nameGrade: "T" + (e + 1).toString(),
-                          grade: works[e].toString(),
+                          grade: works[e],
                           changeGrade: _changeGradeWorks,
                           edit: editWeight,
                         )
                       : Container(
-                          width: 160,
+                          height: 30,
+                          width: editWeight ? 110 : 172,
                         ),
                   e < works.length - 1
                       ? WeightWidget(
+                          id: e,
+                          changeWeight: _changeWeightWorks,
                           edit: editWeight,
-                          weight: 1.6,
+                          weight: weightWorks[e],
                         )
                       : Container(
-                          width: 50,
+                          height: 30,
+                          width: editWeight ? 90 : 60,
                         ),
                 ],
               ),
@@ -272,7 +300,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
     );
   }
 
-  Widget _meanPartial(String meanTest, String meanWork, String meanFinal) {
+  Widget _meanPartial() {
     return Container(
       width: 360,
       padding: const EdgeInsets.all(16),
@@ -291,7 +319,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                child: Text(meanTest,
+                child: Text(
+                    widget.coursesModel.getMeanTestPartial().toStringAsFixed(1),
                     style: const TextStyle(
                       fontSize: 24,
                       color: Colors.white,
@@ -312,7 +341,10 @@ class _CoursesScreenState extends State<CoursesScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(meanWork,
+                child: Text(
+                    widget.coursesModel
+                        .getMeanWorksPartial()
+                        .toStringAsFixed(1),
                     style: const TextStyle(
                       fontSize: 24,
                       color: Colors.white,
@@ -334,28 +366,20 @@ class _CoursesScreenState extends State<CoursesScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child:
-                    Text(widget.coursesModel.getMeanFinal().toStringAsFixed(1),
-                        style: const TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                        )),
+                child: Text(
+                    widget.coursesModel
+                        .getMeanFinalPartial()
+                        .toStringAsFixed(1),
+                    style: const TextStyle(
+                      fontSize: 24,
+                      color: Colors.white,
+                    )),
               ),
             ],
           ),
         ],
       ),
     );
-  }
-
-  Widget _mean() {
-    return changeMeanWidget
-        ? _meanPartial(
-            widget.coursesModel.getMeanTestPartial().toStringAsFixed(1),
-            widget.coursesModel.getMeanWorksPartial().toStringAsFixed(1),
-            widget.coursesModel.getMeanFinalPartial().toStringAsFixed(1),
-          )
-        : _meanFinal();
   }
 
   @override
@@ -415,7 +439,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
                           )),
                     ],
                   ),
-                  _mean(),
+                  changeMeanWidget ? _meanPartial() : _meanFinal(),
                 ],
               ),
             ),

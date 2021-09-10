@@ -47,7 +47,7 @@ class CardWidget extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                     child: Text(
-                      coursesModel.getMeanFinal().toStringAsFixed(1),
+                      coursesModel.getMeanFinalPartial().toStringAsFixed(1),
                       style: const TextStyle(color: Colors.white, fontSize: 30),
                       textAlign: TextAlign.left,
                     ),

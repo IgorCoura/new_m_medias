@@ -3,36 +3,44 @@ import 'package:flutter/material.dart';
 class WeightWidget extends StatelessWidget {
   final bool edit;
   final double weight;
+  final Function(int index, double grade) changeWeight;
+  final int id;
   const WeightWidget({
     Key? key,
     required this.edit,
     required this.weight,
+    required this.id,
+    required this.changeWeight,
   }) : super(key: key);
 
   _textWidget() {
-    return Text("x" + weight.toStringAsFixed(1),
-        style: TextStyle(
-            color: Color(0xffaeaeae),
-            fontSize: 16,
-            fontWeight: FontWeight.bold));
+    return Container(
+      width: 45,
+      child: Text("x" + weight.toStringAsFixed(1),
+          style: const TextStyle(
+              color: Color(0xffaeaeae),
+              fontSize: 16,
+              fontWeight: FontWeight.bold)),
+    );
   }
 
   _editWeight() {
     return Container(
-      width: 60,
+      width: 75,
       child: TextFormField(
         keyboardType: TextInputType.number,
         key: Key(
-          "x1.7",
+          "x" + weight.toStringAsFixed(1),
         ),
-        initialValue: "x1.7",
+        initialValue: "x" + weight.toStringAsFixed(1),
         decoration: const InputDecoration(),
         style: const TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
-        onChanged: (s) => print(s),
+        onFieldSubmitted: (w) =>
+            changeWeight(id, double.parse(w.replaceAll("x", ""))),
       ),
     );
   }
@@ -40,7 +48,7 @@ class WeightWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+        padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
         alignment: Alignment.bottomCenter,
         child: edit ? _editWeight() : _textWidget());
   }

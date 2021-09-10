@@ -19,12 +19,16 @@ class htmlService {
         var text = t.text;
         if (text != null && !t.outerHtml.contains("bloqueado")) {
           if (text == "") {
-            text = "0";
+            text = "-1";
           }
           text = text.replaceAll(",", ".");
           var grade = double.tryParse(text);
           if (grade != null) {
             listTest.add(grade);
+          } else if (text == "NE" || text == "NC") {
+            listTest.add(-2);
+          } else {
+            listTest.add(-3);
           }
         }
       });
@@ -36,12 +40,16 @@ class htmlService {
         var text = w.text;
         if (text != null && !w.outerHtml.contains("bloqueado")) {
           if (text == "") {
-            text = "0";
+            text = "-1";
           }
           text = text.replaceAll(",", ".");
           var grade = double.tryParse(text);
           if (grade != null) {
             listWorks.add(grade);
+          } else if (text == "NE" || text == "NC") {
+            listWorks.add(-2);
+          } else {
+            listTest.add(-3);
           }
         }
       });
